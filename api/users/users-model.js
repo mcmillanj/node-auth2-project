@@ -1,12 +1,10 @@
 const db = require('../../data/db-config.js');
 
 function find() {
-  const users = db('users as u')
-  .select('u.user_id', 'u.username', 'r.role_name')
-  .join('roles as r', 'r.role_id', 'u.role_id')
-
-  return users
-}
+  return db("users")
+  .join('roles ', 'users.role_id', 'roles.role_id')
+  .select('user_id', 'username', 'role_name')
+  }
   /**
     You will need to join two tables.
     Resolves to an ARRAY with all users.
@@ -26,12 +24,18 @@ function find() {
    */
 
     async function findBy(filter) {
-      const user = await db("users as u")
-    .select("u.user_id", "u.username", "u.password", "r.role_name")
-    .join("roles as r", "r.role_id", "u.role_id")
-    .where(filter);
+      return db("users")
+      .join('roles ', 'users.role_id', 'roles.role_id')
+      .select('user_id', 'username',"password", 'role_name').where(filter)
 
-   return user; 
+
+
+  //     const user = await db("users as u")
+  //   .select("u.user_id", "u.username", "u.password", "r.role_name")
+  //   .join("roles as r", "r.role_id", "u.role_id")
+  //   .where(filter);
+
+  //  return user; 
 // return db('users')
 //       .join('roles', 'users.role_id', 'roles.role_id')
 //       .select('user_id', 'username', 'password', 'role_name')
@@ -58,13 +62,21 @@ function find() {
 
 
 async function findById(user_id) {
-  const user = await db('users as u')
-  .select('u.user_id', 'u.username', 'r.role_name')
-  .join('roles as r', 'r.role_id', 'u.role_id')
-  .where('u.user_id', user_id)
+  return db("users")
+  .join('roles ', 'users.role_id', 'roles.role_id')
+  .select('user_id', 'username',"password", 'role_name')
+  .where("users.user_id", user_id).first()
 
-  return (user);
 }
+
+
+//   const user = await db('users as u')
+//   .select('u.user_id', 'u.username', 'r.role_name')
+//   .join('roles as r', 'r.role_id', 'u.role_id')
+//   .where('u.user_id', user_id)
+
+//   return (user);
+// }
 
 
 
